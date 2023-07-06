@@ -1,8 +1,12 @@
 ﻿#include "Header.h"
 
 //struct Ships // Вроде класс, но все открыто//{
-// bool horizontal = true;// int x, y;
+// bool horizontal = true;
+// int x, y;
 //};
+
+enum Napravlenie { Up = 72, Left = 75, Right = 77, Down = 80, Enter = 13, Q = 113 }; //клавиши
+// Enum - перечисление констант
 
 int main() {
     srand(time(NULL));
@@ -15,6 +19,9 @@ int main() {
     char mas1[10] = { 'А','Б','В','Г','Д','Е','Ж','З','И','К' };
     char mas2[10] = { '1','2','3','4','5','6','7','8','9','0' };
 
+    int keyboard = 0;
+    keyboard = _getch(); // Дальше через switch можно будет проверять, какая клавиша была нажата
+
     //Корабли 
 
     char** arrayShip4 = new char* [1];
@@ -22,7 +29,8 @@ int main() {
         arrayShip4[i] = new char[4] { '#', '#', '#', '#' };
     }
 
-    char** arrayShip3 = new char* [2]; for (int i = 0; i < 2; i++) {
+    char** arrayShip3 = new char* [2]; 
+    for (int i = 0; i < 2; i++) {
         arrayShip3[i] = new char[3] { '#', '#', '#' };
     }
 
@@ -31,7 +39,8 @@ int main() {
         arrayShip2[i] = new char[2] { '#', '#' };
     }
 
-    char** arrayShip1 = new char* [4]; for (int i = 0; i < 1; i++) {
+    char** arrayShip1 = new char* [4]; 
+    for (int i = 0; i < 1; i++) {
         arrayShip1[i] = new char[1] { '#' };
     }
 
@@ -67,7 +76,8 @@ int main() {
             }
             else if (w == "Нет") {
                 char** PlayerfieldStep1 = creatingField();
-                copyfield(Playerfield1, PlayerfieldStep1);    for (int i = 0; i < 10; i++) {
+                copyfield(Playerfield1, PlayerfieldStep1);    
+                for (int i = 0; i < 10; i++) {
                     createShips(arrayShip4, arrayShip3, arrayShip2, arrayShip1, Playerfield1, PlayerfieldStep1, i);
                 }
                 break;

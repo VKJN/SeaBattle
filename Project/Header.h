@@ -10,8 +10,6 @@ using namespace std;
 const int SIZE_FIELD = 10;
 const int FPS = 100;
 
-int keyboard();
-
 void copyfield(char**& field, char**& field1);
 
 char** creatingField();

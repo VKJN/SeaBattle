@@ -1,27 +1,5 @@
 #include "Header.h"
 
-int keyboard() {
-    if (_kbhit()) {
-        switch (_getch()) {
-        case 80: //down
-            return 1; 
-        case 72: //up
-            return 2;  
-        case 75: //left
-            return 3;  
-        case 77: //right
-            return 4;  
-        case 113: // q для того, чтобы можно было разворачивать корабли, когда их выставляешь
-            return 5;  
-        case 13: // Enter для того, чтобы был
-            return 6;
-        }
-    }
-    else {
-        return 0;
-    }
-}
-
 void copyfield(char**& field, char**& field1) {
     for (int i = 0; i < SIZE_FIELD + 1; i++) {
         for (int j = 0; j < SIZE_FIELD + 1; j++) {
