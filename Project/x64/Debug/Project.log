@@ -1,6 +1,7 @@
 ﻿  Project.cpp
-C:\Users\PC\Desktop\SeaBattle\Project\Project.cpp(8,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\PC\Desktop\SeaBattle\Project\Project.cpp(30,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
   Source.cpp
+C:\Users\PC\Desktop\SeaBattle\Project\Source.cpp(44,22): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
+C:\Users\PC\Desktop\SeaBattle\Project\Source.cpp(44,24): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
   Создание кода...
-C:\Users\PC\Desktop\SeaBattle\Project\Source.cpp(23): warning C4715: keyboard: значение возвращается не при всех путях выполнения
   Project.vcxproj -> C:\Users\PC\Desktop\SeaBattle\Project\x64\Debug\Project.exe

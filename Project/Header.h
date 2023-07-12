@@ -5,12 +5,12 @@
 #include <conio.h> 
 #include <string> 
 #include <fstream> 
+#include <cstdlib>
+
 #define random(a,b) (a + rand()% (b + 1 - a)) 
 using namespace std;
 const int SIZE_FIELD = 10;
 const int FPS = 100;
-
-void copyfield(char**& field, char**& field1);
 
 char** creatingField();
 
@@ -20,7 +20,8 @@ void ShowField(char** field);
 
 void UpdateField1();
 
-void createShips(char**& arrayShip4, char**& arrayShip3, char**& arrayShip2, char**& arrayShip1,
-	char**& Playerfield1, char**& PlayerfieldStep1, int i);
+void SetCursor(int x, int y);
 
-void createShipsAuto(char**& arrayShip4, char**& arrayShip3, char**& arrayShip2, char**& arrayShip1, char**& Playerfield1, int i);
+void Start(char menu[][15]);
+
+void Choice_1(char menu[][15], int change);
