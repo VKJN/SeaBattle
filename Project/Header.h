@@ -14,14 +14,14 @@ const int FPS = 100;
 
 char** creatingField();
 
-void initField(char** field, char* mas1, char* mas2);
+void initField(char** field);
 
 void ShowField(char** field);
-
-void UpdateField1();
 
 void SetCursor(int x, int y);
 
 void Start(char menu[][15]);
 
-void Choice_1(char menu[][15], int change);
+void Choice_1(char menu[][15], int a);
+
+void Choice_2(char var[][30], int a);

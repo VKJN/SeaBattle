@@ -30,8 +30,8 @@ int main() {
     srand(time(NULL));
     setlocale(LC_ALL, "rus");
 
-    char var[2][30] = { "Автоматическая расстановка","Ручная расстановка" };
-    char menu[4][15] = { "МОРСКОЙ БОЙ","Играть","История","Выход" };
+    char var[2][30] = { "Автоматическая расстановка ","Ручная расстановка " };
+    char menu[5][15] = { "МОРСКОЙ БОЙ","Играть ","Управление ","История ","Выход " };
     int myShips[12][12] = { 0 };
     int enemyShips[12][12] = { 0 };
     /*
@@ -54,21 +54,17 @@ int main() {
     Ships* characteristicShips = new Ships[20]; // Создание 10 корабликов (Всего палуб 20)
     LoadShips(characteristicShips);
 
-   /* char mas1[10] = { 'А','Б','В','Г','Д','Е','Ж','З','И','К' };
-    char mas2[10] = { '1','2','3','4','5','6','7','8','9','0' };*/
-
-
     int key = 1, y = 2, x = 2, num = 0, change = 1, b = 0, x2 = 37, y2 = 2, up = 0, down = 0, over = 0;
 
     bool arrangement = true, round = false;
     /*
-    key - переменная для записи нажатой клавиши
-    round - переменная для проверки на начало боя
+    key - для записи нажатой клавиши
+    round - для проверки на начало боя
     b - дополнительная переменная для меню
-    up - переменная которая поможет правильно добивать наши кораблики
-    down - переменная которая поможет правильно добивать наши кораблики
-    x2 - дополнительная перемнная для записи положения курсора на вражеском поле
-    y2 - дополнительная перемнная для записи положения курсора на вражеском поле
+    up - поможет правильно добивать наши кораблики
+    down - поможет правильно добивать наши кораблики
+    x2 - доп перемнная для записи положения курсора на вражеском поле
+    y2 - доп перемнная для записи положения курсора на вражеском поле
     y - позиция по Y
     x - позиция по X
     change - номер расстановки который будет использован
@@ -76,6 +72,8 @@ int main() {
     arrangement - тип расстановки который будет использован
     */
 
+    string path_histopy = "C:\\Users\\PC\\Desktop\\SeaBattle\\History.txt"; // Доп текстовые файлы
+    string path_control = "C:\\Users\\PC\\Desktop\\SeaBattle\\Control.txt";
 
     // Игра
     cout << "Нажмите на любую клавишу для продолжения: ";
@@ -86,20 +84,21 @@ int main() {
         Sleep(100);
     }
     Choice_1(menu, change);
+    int s = 1; // переменная для правильного передвижения стрелочки
     do {
         key = _getch(); 
         switch (key) {
         case Up:
-            if (y > 1) {
-                y--;
-                change = y;
+            if (s > 1) {
+                s--;
+                change = s;
                 Choice_1(menu, change);
             }
             break;
         case Down:
-            if (y < 3) {
-                y++;
-                change = y;
+            if (s < 4) {
+                s++;
+                change = s;
                 Choice_1(menu, change);
             }
             break;
@@ -107,17 +106,102 @@ int main() {
             do {
                 switch (change) {
                 case 1:
-                    cout << endl << "Игра";
                     b++;
                     break;
+
                 case 2:
-                    cout << endl << "Файл";
-                    b++;
+                {
+                    system("cls");
+                    ifstream file_in;
+                    string str;
+                    file_in.open(path_control);
+                    if (file_in.is_open()) {
+                        while (getline(file_in, str)) {
+                            cout << str << endl;
+                        }
+                    }
+                    else {
+                        cout << "Ошибка файла";
+                        exit(0);
+                    }
+                    file_in.close();
+                    cout << endl << "Нажмите любую клавишу, чтобы вернуться: ";
+                    int a = _getch();
+                    if (a != 0) {
+                        Choice_1(menu, change);
+                    }
+                }
                     break;
+
                 case 3:
+                {
+                    system("cls");
+                    ifstream file_in;
+                    string str;
+                    file_in.open(path_histopy);
+                    if (file_in.is_open()) {
+                        while (getline(file_in, str)) {
+                            cout << str << endl;
+                        }
+                    }
+                    else {
+                        cout << "Ошибка файла";
+                        exit(0);
+                    }
+                    file_in.close();
+                    cout << endl << "Нажмите любую клавишу, чтобы вернуться: ";
+                    int a = _getch();
+                    if (a != 0) {
+                        Choice_1(menu, change);
+                    }
+                }
+                    break;
+
+                case 4:
                     exit(0);
                 }
             } while (key != Enter);
         }
     } while (b < 1);
+
+    b = 0, s = 1, change = 1; // На всякий верну на прежние значения
+
+    system("cls");
+
+    Choice_2(var, change);
+    do {
+        key = _getch();
+        switch (key) {
+        case Up:
+            if (s > 0) {
+                s--; 
+                change = s; 
+                Choice_2(var, change); 
+            }
+            break;
+        case Down:
+            if (s < 1) {
+                s++; 
+                change = s; 
+                Choice_2(var, change);
+            }
+            break;
+        case Enter:
+            do {
+                switch (change) {
+                case 0:
+                    arrangement = false; //автоматическая расстанвкоа
+                    b++; 
+                    break;
+                case 1:
+                    arrangement = true; //ручная расстановка
+                    b++; 
+                    s++;
+                    break;
+                }
+            } while (key != Enter);
+        }
+    } while (b < 1);
+    system("cls");
+    cout << endl << "ertyerty";
 }

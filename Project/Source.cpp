@@ -7,7 +7,10 @@ char** creatingField() {
     } return field;
 }
 
-void initField(char** field, char* mas1, char* mas2) {
+void initField(char** field) {
+    char mas1[10] = { 'А','Б','В','Г','Д','Е','Ж','З','И','К' };
+    char mas2[10] = { '1','2','3','4','5','6','7','8','9','0' };
+
     int a = 0, b = 0; // переменные для прохода по массивам букв и цмфр
     for (int i = 0; i < SIZE_FIELD + 1; i++) {
         for (int j = 0; j < SIZE_FIELD + 1; j++) {
@@ -34,10 +37,6 @@ void ShowField(char** field) {
     cout << endl;
 }
 
-void UpdateField1() {
-
-}
-
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); //Дескриптор активного окна
 
 void SetCursor(int x, int y) { //функция для того чтобы устанавливать позицию курсора в консоли по оси Х и Y
@@ -53,9 +52,9 @@ void Start(char menu[][15]) { //функция, самая первая
     }
 }
 
-void Choice_1(char menu[][15], int a) { //меню выбора
+void Choice_1(char menu[][15], int a) { //меню
     system("cls");
-    for (int i = 0, y = 4; i < 4; i++, y += 2) {
+    for (int i = 0, y = 4; i < 5; i++, y += 2) {
         SetCursor(16, y);
         for (int j = 0; j < 15; j++) {
             if (i == a) {
@@ -67,4 +66,24 @@ void Choice_1(char menu[][15], int a) { //меню выбора
             cout << menu[i][j];
         }
     }
+}
+
+void Choice_2(char var[][30], int a) { // Выбор расстановки 
+    system("cls");
+    for (int i = 0; i < 2; i++) {
+        SetCursor(30, 6 + i);
+        for (int j = 0; j < 30; j++) {
+            if (i == a) {
+                var[i][29] = '<';
+            }
+            else {
+                var[i][29] = ' ';
+            }
+            cout << var[i][j];
+        }
+    }
+    SetCursor(0, 0);
+    char** field = creatingField();
+    initField(field);
+    ShowField(field);
 }
