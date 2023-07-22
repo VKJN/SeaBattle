@@ -26,6 +26,14 @@ void LoadShips(Ships* characteristicShips) {
     }
 }
 
+void Auto(Ships* characteristicShips, int myShips[12][12]) {
+    int y, x, ship = 0;
+    while (ship < 10) {
+        characteristicShips[ship].horizontal = 0 + rand() % 2; //присваиваем рандомную ориентацию
+        y = 2 + rand() % 9, x = (1 + rand() % 9); //присваиваем рандомные координаты
+    }
+}
+
 int main() {
     srand(time(NULL));
     setlocale(LC_ALL, "rus");
@@ -202,6 +210,12 @@ int main() {
             } while (key != Enter);
         }
     } while (b < 1);
+
     system("cls");
-    cout << endl << "ertyerty";
+
+    if (arrangement = false) {
+        Auto(characteristicShips, myShips);
+        round = true;
+    }
+
 }

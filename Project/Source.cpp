@@ -1,41 +1,41 @@
 #include "Header.h"
 
-char** creatingField() {
-    char** field = new char* [SIZE_FIELD + 1];
-    for (int i = 0; i < SIZE_FIELD + 1; i++) {
-        field[i] = new char[SIZE_FIELD + 1] {};
-    } return field;
-}
-
-void initField(char** field) {
-    char mas1[10] = { 'А','Б','В','Г','Д','Е','Ж','З','И','К' };
-    char mas2[10] = { '1','2','3','4','5','6','7','8','9','0' };
-
-    int a = 0, b = 0; // переменные для прохода по массивам букв и цмфр
-    for (int i = 0; i < SIZE_FIELD + 1; i++) {
-        for (int j = 0; j < SIZE_FIELD + 1; j++) {
-            if (i > 0 && j > 0) {
-                field[i][j] = '~';
-            }
-            if (i == 0 && j > 0) {
-                field[i][j] = mas1[a++]; //ряд из букв   }
-            }
-            else if (j == 0 && i > 0) {
-                field[i][j] = mas2[b++]; // столбец из цифр
-            }
-        }
-    }
-}
-
-void ShowField(char** field) {
-    for (int i = 0; i < SIZE_FIELD + 1; i++) {
-        for (int j = 0; j < SIZE_FIELD + 1; j++) {
-            cout << field[i][j] << " ";
-        }
-        cout << endl;
-    }
-    cout << endl;
-}
+//char** creatingField() {
+//    char** field = new char* [SIZE_FIELD + 1];
+//    for (int i = 0; i < SIZE_FIELD + 1; i++) {
+//        field[i] = new char[SIZE_FIELD + 1] {};
+//    } return field;
+//}
+//
+//void initField(char** field) {
+//    char mas1[10] = { 'А','Б','В','Г','Д','Е','Ж','З','И','К' };
+//    char mas2[10] = { '1','2','3','4','5','6','7','8','9','0' };
+//
+//    int a = 0, b = 0; // переменные для прохода по массивам букв и цмфр
+//    for (int i = 0; i < SIZE_FIELD + 1; i++) {
+//        for (int j = 0; j < SIZE_FIELD + 1; j++) {
+//            if (i > 0 && j > 0) {
+//                field[i][j] = '~';
+//            }
+//            if (i == 0 && j > 0) {
+//                field[i][j] = mas1[a++]; //ряд из букв   }
+//            }
+//            else if (j == 0 && i > 0) {
+//                field[i][j] = mas2[b++]; // столбец из цифр
+//            }
+//        }
+//    }
+//}
+//
+//void ShowField(char** field) {
+//    for (int i = 0; i < SIZE_FIELD + 1; i++) {
+//        for (int j = 0; j < SIZE_FIELD + 1; j++) {
+//            cout << field[i][j] << " ";
+//        }
+//        cout << endl;
+//    }
+//    cout << endl;
+//}
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); //Дескриптор активного окна
 
@@ -83,7 +83,36 @@ void Choice_2(char var[][30], int a) { // Выбор расстановки
         }
     }
     SetCursor(0, 0);
-    char** field = creatingField();
-    initField(field);
-    ShowField(field);
+    Createfield(0);
+}
+
+void Createfield(int x) {
+    SetCursor(x, 1);
+    char mas[10] = { 'А','Б','В','Г','Д','Е','Ж','З','И','К' };
+    
+    int a = 0, b = 0;
+    cout << "  " << mas[0];
+    for (int i = 0; i < 12; i++) {
+        if (b == 0) {
+            SetCursor(x + 3, 1 + i);
+            b++;
+        }
+        else {
+            SetCursor(x, 1 + i);
+        }
+        for (int j = 0; j < 12; j++) { 
+            if (i == 0 && j > 0 && j < 10) {
+                cout << ' ' << mas[j];
+            }
+            else if (i > 0 && i < 11 && j == 0) {
+                cout << i - 1 << ' ';
+            }
+            else if (i >= 1 && i < 11 && j >= 1 && j < 11) {
+                cout << '~' << ' ';
+            }
+            else if ((i == 11 && j > 0 && j < 11) || (j == 11 && i > 0 && i < 11)) {
+                cout << ' ';
+            }
+        }
+    }
 }
