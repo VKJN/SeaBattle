@@ -92,27 +92,49 @@ void Createfield(int x) {
     
     int a = 0, b = 0;
     cout << "  " << mas[0];
-    for (int i = 0; i < 12; i++) {
+    for (int i = 0; i < 11; i++) {
         if (b == 0) {
-            SetCursor(x + 3, 1 + i);
+            SetCursor(x + 3, 1);
             b++;
         }
         else {
             SetCursor(x, 1 + i);
         }
-        for (int j = 0; j < 12; j++) { 
+        for (int j = 0; j < 11; j++) { 
             if (i == 0 && j > 0 && j < 10) {
                 cout << ' ' << mas[j];
             }
             else if (i > 0 && i < 11 && j == 0) {
                 cout << i - 1 << ' ';
             }
-            else if (i >= 1 && i < 11 && j >= 1 && j < 11) {
-                cout << '~' << ' ';
-            }
-            else if ((i == 11 && j > 0 && j < 11) || (j == 11 && i > 0 && i < 11)) {
-                cout << ' ';
+            else if (i > 0 && i < 11 && j > 0 && j < 11) {
+                cout << "~ ";
             }
         }
+    }
+}
+
+void Pos(int mas[12][12], int x) { //прорисовка игровой карты с положением поставленных корабликов
+    for (int i = 1; i < 11; i++) {
+        int y = 1 + i; 
+        SetCursor(x, y); 
+        for (int j = 1; j < 11; j++) {
+            if (mas[i][j] == 1) {
+                cout << "$ ";
+            }
+            else if (mas[i][j] == 2) {
+                cout << "@ ";
+            }
+            else if (mas[i][j] == 3) {
+                cout << "* ";
+            }
+            else if (mas[i][j] >= 4) {
+                cout << "# ";
+            }
+            else {
+                cout << "~ ";
+            }  
+        }
+        cout << "\n";
     }
 }

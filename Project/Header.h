@@ -27,3 +27,5 @@ void Choice_1(char menu[][15], int a);
 void Choice_2(char var[][30], int a);
 
 void Createfield(int x);
+
+void Pos(int mas[12][12], int x);

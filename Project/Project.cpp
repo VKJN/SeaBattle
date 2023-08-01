@@ -6,7 +6,7 @@ struct Ships { // Вроде класс, но все открытo
     int x, y; // позиции первой палубы кораблика 
 };
 
-enum Napravlenie { Up = 72, Left = 75, Right = 77, Down = 80, Enter = 13, Q = 113 }; //клавиши
+enum Napravlenie { Up = 72, Left = 75, Right = 77, Down = 80, Enter = 13, Q = 113}; //клавиши
 // Enum - перечисление констант
 
 void LoadShips(Ships* characteristicShips) {
@@ -26,14 +26,6 @@ void LoadShips(Ships* characteristicShips) {
     }
 }
 
-void Auto(Ships* characteristicShips, int myShips[12][12]) {
-    int y, x, ship = 0;
-    while (ship < 10) {
-        characteristicShips[ship].horizontal = 0 + rand() % 2; //присваиваем рандомную ориентацию
-        y = 2 + rand() % 9, x = (1 + rand() % 9); //присваиваем рандомные координаты
-    }
-}
-
 int main() {
     srand(time(NULL));
     setlocale(LC_ALL, "rus");
@@ -41,28 +33,22 @@ int main() {
     char var[2][30] = { "Автоматическая расстановка ","Ручная расстановка " };
     char menu[5][15] = { "МОРСКОЙ БОЙ","Играть ","Управление ","История ","Выход " };
     int myShips[12][12] = { 0 };
-    int enemyShips[12][12] = { 0 };
+    int enemyShips[11][11] = { 0 };
     /*
     0 - то, куда можно ставить кораблики
     1 - место около кораблика, куда нельзя ставить
     2 - место, где был выстрел, но не было кораблика
     3 - место, где был выстрел и находился кораблик
-    4 - 1 кораблик с 1 палубой
-    5 - 2 кораблик с 1 палубой
-    6 - 3 кораблик с 1 палубой
-    7 - 4 кораблик с 1 палубой
-    8 - 1 кораблик с 2 палубой
-    9 - 2 кораблик с 2 палубой
-    10 - 3 кораблик с 2 палубой
-    11 - 1 кораблик с 3 палубой
-    12 - 2 кораблик с 3 палубой
-    13 - 1 кораблик с 4 палубой
+    4 - кораблики с 1 палубой
+    5 - кораблики с 2 палубой
+    6 - кораблики с 3 палубой
+    7 - кораблики с 4 палубой
     */
 
     Ships* characteristicShips = new Ships[20]; // Создание 10 корабликов (Всего палуб 20)
     LoadShips(characteristicShips);
 
-    int key = 1, y = 2, x = 2, num = 0, change = 1, b = 0, x2 = 37, y2 = 2, up = 0, down = 0, over = 0;
+    int key = 1, y = 2, x = 2, num = 0, change = 1, b = 0;
 
     bool arrangement = true, round = false;
     /*
@@ -89,8 +75,8 @@ int main() {
     if (a != 0) {
         system("cls");
         Start(menu);
-        Sleep(100);
     }
+
     Choice_1(menu, change);
     int s = 1; // переменная для правильного передвижения стрелочки
     do {
@@ -212,10 +198,184 @@ int main() {
     } while (b < 1);
 
     system("cls");
+    Createfield(0);
+    
+    if (arrangement == true) { // ручная расстановка
+        do {
+            Pos(myShips, 2);
+            SetCursor(x, y);
+            if (characteristicShips[num].horizontal == true) {
+                for (int i = 0; i < characteristicShips[num].sda; i++) {
+                    cout << "# ";
+                }
+            }
+            else if (characteristicShips[num].horizontal == false) {
+                y += characteristicShips[num].sda; //изменяем позицию по "y" на то сколько палуб у кораблика
+                for (int i = 0; i < characteristicShips[num].sda; i++) { //запускаем цикл который будет отрисовыввать кораблик с нужным колличеством палуб
+                    cout << "# ";
+                    y--; 
+                    SetCursor(x, y);
+                }
+            }
+            key = _getch();
+            switch (key) {
+            case Left:
+                if (x > 2) {
+                    x -= 2;
+                }
+                break;
 
-    if (arrangement = false) {
-        Auto(characteristicShips, myShips);
+            case Right:
+                if (characteristicShips[num].horizontal == true) {
+                    if (num < 3) {
+                        if (x < 18 - characteristicShips[num].sda) {
+                            x += 2;
+                        }
+                    }
+                    else if (num > 2 && num < 6) {
+                        if (x < 20 - characteristicShips[num].sda) {
+                            x += 2;
+                        }
+                    }
+                    else {
+                        if (x < 21 - characteristicShips[num].sda) {
+                            x += 2;
+                        }
+                    }
+                }
+                else {
+                    if (x < 20) {
+                        x += 2;
+                    }
+                }
+                break;
+
+            case Up:
+                if (y > 2) {
+                    y--;
+                }
+                break;
+
+            case Down:
+                if (characteristicShips[num].horizontal == false) {
+                    if (y < 12 - characteristicShips[num].sda) {
+                        y++;
+                    }
+                }
+                else {
+                    if (y < 11) {
+                        y++;
+                    }
+                }
+                break;
+
+            case Q:
+                characteristicShips[num].horizontal = !characteristicShips[num].horizontal; //изменяем ориентацию кораблика на противоположную
+                if (characteristicShips[num].horizontal == false && y + characteristicShips[num].sda >= 13) {
+                    y -= y + characteristicShips[num].sda - 12; 
+                }
+                else if (characteristicShips[num].horizontal == true && x + characteristicShips[num].sda * 2 >= 24) {
+                    x -= (x + characteristicShips[num].sda * 2) - 22; 
+                }
+                for (int i = 0; i < 10 - num; i++) { //изменяем ориентацию так же и для последующих корабликов
+                    characteristicShips[num + i].horizontal = characteristicShips[num].horizontal; 
+                }
+                break;
+
+            case Enter:
+                int counter = 0;
+                int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
+                switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
+                case 2:
+                    x1 = 2;
+                    break;
+                case 4:
+                    x1 = 3;
+                    break;
+                case 6:
+                    x1 = 4;
+                    break;
+                case 8:
+                    x1 = 5;
+                    break;
+                case 10:
+                    x1 = 6;
+                    break;
+                case 12:
+                    x1 = 7;
+                    break;
+                case 14:
+                    x1 = 8;
+                    break;
+                case 16:
+                    x1 = 9;
+                    break;
+                case 18:
+                    x1 = 10;
+                    break;
+                case 20:
+                    x1 = 11;
+                    break;
+                }
+                if (characteristicShips[num].horizontal == true) { 
+                    characteristicShips[num].x = x + 2, characteristicShips[num].y = y;
+                    for (int i = 0; i < 3; i++) {
+                        for (int j = 0, c = characteristicShips[num].sda; j < characteristicShips[num].sda + 2; j++, c--) {
+                            if ((i == 0 || i == 2) || (i == 1 && j == 0 || j == characteristicShips[num].sda + 1)) {
+                                myShips[y - 2 + i][x1 - 2 + j] = 1; //меняем значение окупируемых позиций в двумерном массиве
+                            }
+                            else { //меняем значение позиций, где находится корабль в двумерном массиве
+                                switch (characteristicShips[num].sda) {
+                                case 4:
+                                    myShips[y - 1][x1 - 1 + c] = 7;
+                                    break;
+                                case 3:
+                                    myShips[y - 1][x1 - 1 + c] = 6;
+                                    break;
+                                case 2:
+                                    myShips[y - 1][x1 - 1 + c] = 5;
+                                    break;
+                                case 1:
+                                    myShips[y - 1][x1 - 1 + c] = 4;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    num++;
+                }
+
+                if (characteristicShips[num].horizontal == false) {
+                    characteristicShips[num].x = x + 2, characteristicShips[num].y = y;
+                    for (int i = 0, c = characteristicShips[num].sda; i < characteristicShips[num].sda + 2; i++, c--) {
+                        for (int j = 0; j < 3; j++) {
+                            if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[num].sda + 1)) {
+                                myShips[y - 2 + i][x1 - 2 + j] = 1;
+                            }
+                            else {
+                                switch (characteristicShips[num].sda) {
+                                case 4:
+                                    myShips[y - 1 + c][x1 - 1] = 7;
+                                    break;
+                                case 3:
+                                    myShips[y - 1 + c][x1 - 1] = 6;
+                                    break;
+                                case 2:
+                                    myShips[y - 1 + c][x1 - 1] = 5;
+                                    break;
+                                case 1:
+                                    myShips[y - 1 + c][x1 - 1] = 4;
+                                    break;
+                                }
+                            }
+                        }
+                    }
+                    num++; 
+                }
+            }
+        } while (num <= 9);
         round = true;
     }
-
+    Sleep(20);
+    Createfield(35);
 }
