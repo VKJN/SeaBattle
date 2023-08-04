@@ -283,7 +283,6 @@ int main() {
                 break;
 
             case Enter:
-                int counter = 0;
                 int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
                 switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
                 case 2:
@@ -317,8 +316,16 @@ int main() {
                     x1 = 11;
                     break;
                 }
+                int counter1 = 0, counter2 = 0;
                 if (characteristicShips[num].horizontal == true) { 
-                    characteristicShips[num].x = x + 2, characteristicShips[num].y = y;
+                    for (int j = 0; j < characteristicShips[num].sda; j++) {
+                        if (myShips[y - 1][x1 - 1 + j] == 0) {
+                            counter1++;
+                        }
+                    }
+                }
+                if (characteristicShips[num].horizontal == true && counter1 == characteristicShips[num].sda) {
+                    characteristicShips[num].x = x, characteristicShips[num].y = y;
                     for (int i = 0; i < 3; i++) {
                         for (int j = 0, c = characteristicShips[num].sda; j < characteristicShips[num].sda + 2; j++, c--) {
                             if ((i == 0 || i == 2) || (i == 1 && j == 0 || j == characteristicShips[num].sda + 1)) {
@@ -346,7 +353,14 @@ int main() {
                 }
 
                 if (characteristicShips[num].horizontal == false) {
-                    characteristicShips[num].x = x + 2, characteristicShips[num].y = y;
+                    for (int j = 0; j < characteristicShips[num].sda; j++) {
+                        if (myShips[y - 1 + j][x1 - 1] == 0) {
+                            counter2++;
+                        }
+                    }
+                }
+                if (characteristicShips[num].horizontal == false && counter2 == characteristicShips[num].sda) {
+                    characteristicShips[num].x = x, characteristicShips[num].y = y;
                     for (int i = 0, c = characteristicShips[num].sda; i < characteristicShips[num].sda + 2; i++, c--) {
                         for (int j = 0; j < 3; j++) {
                             if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[num].sda + 1)) {
