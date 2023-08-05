@@ -119,13 +119,7 @@ void Pos(int mas[12][12], int x) { //прорисовка игровой карты с положением поста
         int y = 1 + i; 
         SetCursor(x, y); 
         for (int j = 1; j < 11; j++) {
-            if (mas[i][j] == 1) {
-                cout << "$ ";
-            }
-            else if (mas[i][j] == 2) {
-                cout << "@ ";
-            }
-            else if (mas[i][j] == 3) {
+            if (mas[i][j] == 3) {
                 cout << "* ";
             }
             else if (mas[i][j] >= 4) {
@@ -136,5 +130,36 @@ void Pos(int mas[12][12], int x) { //прорисовка игровой карты с положением поста
             }  
         }
         cout << "\n";
+    }
+}
+
+void Pos_enemy(int mas[12][12], int x) {
+    for (int i = 1; i < 11; i++) {
+        int y = 1 + i;
+        SetCursor(x, y);
+        for (int j = 1; j < 11; j++) {
+            if (mas[i][j] == 3) {
+                cout << "* ";
+            }
+            /*else if (mas[i][j] >= 4) {
+                cout << "# ";
+            }*/
+            else {
+                cout << "~ ";
+            }
+        }
+        cout << "\n";
+    }
+}
+
+void Meny(int num) {
+    char replicas[9][40] = { "Враг думает, куда ударить... ","Враг промазал ", "Враг попал ", "Ты проиграл, в следующий раз повезет ",
+        "Твой ход " , "Ты промазал...", "Победа! Не хочешь ещё раз сыграть ? ",
+        "Ты попал, ходи снова! ", "Ты уничтожил вражеский корабль! " };
+
+    SetCursor(22, 15); 
+
+    for (int i = 0; i < 30; i++) {
+        cout << replicas[num][i];
     }
 }
