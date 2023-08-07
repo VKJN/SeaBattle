@@ -119,8 +119,11 @@ void Pos(int mas[12][12], int x) { //прорисовка игровой карты с положением поста
         int y = 1 + i; 
         SetCursor(x, y); 
         for (int j = 1; j < 11; j++) {
-            if (mas[i][j] == 3) {
+            if (mas[i][j] == 2) {
                 cout << "* ";
+            }
+            else if (mas[i][j] == 3) {
+                cout << "! ";
             }
             else if (mas[i][j] >= 4) {
                 cout << "# ";
@@ -138,12 +141,15 @@ void Pos_enemy(int mas[12][12], int x) {
         int y = 1 + i;
         SetCursor(x, y);
         for (int j = 1; j < 11; j++) {
-            if (mas[i][j] == 3) {
+            if (mas[i][j] == 2) {
                 cout << "* ";
             }
-            /*else if (mas[i][j] >= 4) {
+            else if (mas[i][j] == 3) {
+                cout << "! ";
+            }
+            else if (mas[i][j] >= 4) {
                 cout << "# ";
-            }*/
+            }
             else {
                 cout << "~ ";
             }

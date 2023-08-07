@@ -27,12 +27,11 @@ void LoadShips(Ships* characteristicShips) {
     }
 }
 
-// Эта функция работает по какой-то причине через раз, не знаю почему
 void Auto(Ships* characteristicShips, int myShips[12][12], int plus) {
     int y, x, ship = plus; //переменная для координат и номера кораблика 
     while (ship < plus + 10) {
-        characteristicShips[ship].horizontal = random(0, 2);
-        y = random(1, 10), x = (random(1, 10)) * 2;
+        characteristicShips[ship].horizontal = random(0, 1);
+        y = random(2, 11), x = (random(1, 10)) * 2;
         if (characteristicShips[ship].horizontal == false && y + characteristicShips[ship].sda >= 13) {
             y -= y + characteristicShips[ship].sda - 12;
         }
@@ -41,7 +40,7 @@ void Auto(Ships* characteristicShips, int myShips[12][12], int plus) {
         }
 
         int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
-        switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
+        switch (x) { //Для отрисовки кораблей 
         case 2:
             x1 = 2;
             break;
@@ -82,14 +81,14 @@ void Auto(Ships* characteristicShips, int myShips[12][12], int plus) {
             }
         }
         if (characteristicShips[ship].horizontal == true && counter1 == characteristicShips[ship].sda) {
-            characteristicShips[ship].x = x, characteristicShips[ship].y = y;
+            characteristicShips[ship].x = x + 2, characteristicShips[ship].y = y;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0, c = characteristicShips[ship].sda; j < characteristicShips[ship].sda + 2; j++, c--) {
                     if ((i == 0 || i == 2) || (i == 1 && j == 0 || j == characteristicShips[ship].sda + 1)) {
                         myShips[y - 2 + i][x1 - 2 + j] = 1; //меняем значение окупируемых позиций в двумерном массиве
                     }
                     else { //меняем значение позиций, где находится корабль в двумерном массиве
-                        switch (characteristicShips[ship].sda) {
+                       /* switch (characteristicShips[ship].sda) {
                         case 4:
                             myShips[y - 1][x1 - 1 + c] = 7;
                             break;
@@ -102,7 +101,8 @@ void Auto(Ships* characteristicShips, int myShips[12][12], int plus) {
                         case 1:
                             myShips[y - 1][x1 - 1 + c] = 4;
                             break;
-                        }
+                        }*/
+                        myShips[y - 1][x1 - 1 + c] = 13 - ship + plus;
                     }
                 }
             }
@@ -117,27 +117,14 @@ void Auto(Ships* characteristicShips, int myShips[12][12], int plus) {
             }
         }
         if (characteristicShips[ship].horizontal == false && counter2 == characteristicShips[ship].sda) {
-            characteristicShips[ship].x = x, characteristicShips[ship].y = y;
+            characteristicShips[ship].x = x + 2, characteristicShips[ship].y = y;
             for (int i = 0, c = characteristicShips[ship].sda; i < characteristicShips[ship].sda + 2; i++, c--) {
                 for (int j = 0; j < 3; j++) {
                     if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[ship].sda + 1)) {
                         myShips[y - 2 + i][x1 - 2 + j] = 1;
                     }
                     else {
-                        switch (characteristicShips[ship].sda) {
-                        case 4:
-                            myShips[y - 1 + c][x1 - 1] = 7;
-                            break;
-                        case 3:
-                            myShips[y - 1 + c][x1 - 1] = 6;
-                            break;
-                        case 2:
-                            myShips[y - 1 + c][x1 - 1] = 5;
-                            break;
-                        case 1:
-                            myShips[y - 1 + c][x1 - 1] = 4;
-                            break;
-                        }
+                        myShips[y - 1 + c][x1 - 1] = 13 - ship + plus;
                     }
                 }
             }
@@ -151,12 +138,10 @@ void check_for_destruction(Ships* characteristicShips, int mas[12][12], int plus
     int B = 13; //переменная, которая будет помогать указывать на нужный кораблик
     int C = 0; //хранение количества уничтоженных корабликов
     bool alive = false;
-    for (int n = 13; n > 3; n--) //проверяем все номерки корабликов на наличие их в массиве
-    {
+    for (int n = 13; n > 3; n--) {
         for (int i = 1; i < 11; i++) {
-            for (int r = 1; r < 11; r++) {
-                if (mas[i][r] == n) //проверяем, есть ли в массиве хоть один номерок с корабликом
-                {
+            for (int j = 1; j < 11; j++) {
+                if (mas[i][j] == n) { //проверяем, есть ли в массиве хоть один номерок с корабликом
                     alive = true; //в случае успеха - кораблик жив/ранен
                     i = 11;
                     break;
@@ -170,6 +155,46 @@ void check_for_destruction(Ships* characteristicShips, int mas[12][12], int plus
             alive = false;
         }
     }
+
+    for (int i = plus; i < 10 + plus; i++) { //цикл для проверки всех кораблей одной команды на уничтожение
+        if (characteristicShips[i].alive == false) {
+            //if (characteristicShips[i].horizontal == true) {
+            //    for (int j = 0; j < 3; j++) {
+            //        for (int c = 0, s = characteristicShips[i].sda; c < characteristicShips[i].sda + 2; c++, s--) {
+            //            if ((j == 0 || j == 2) || (j == 1 && c == 0 || c == characteristicShips[i].sda + 1)) {
+            //                mas[characteristicShips[i].y - 2 + j][characteristicShips[i].x - 2 + c] = 2; //меняем значение позиций массиве, который будем прверять на 2
+            //            }
+            //            else {
+            //                mas[characteristicShips[i].y - 1][characteristicShips[i].x - 2 + s] = 3; //меняем значение позиций массиве, который будем прверять на 3 
+            //            }
+            //        }
+            //    }
+            //}
+            //else if (characteristicShips[i].horizontal == false) {
+            //    for (int j = 0, s = characteristicShips[i].sda; j < characteristicShips[i].sda + 2; j++, s--) {
+            //        for (int c = 0; c < 3; c++) {
+            //            if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[i].sda + 1)) {
+            //                mas[characteristicShips[i].y - 2 + j][characteristicShips[i].x - 2 + c] = 2;
+            //            }
+            //            else {
+            //                mas[characteristicShips[i].y - 1 + s][characteristicShips[i].x - 1] = 3;
+            //            }  
+            //        }
+            //    }
+            //}
+            C++;
+        }
+    }
+
+    if (C == 10 && plus == 0) { //если все наши кораблики уничтожены
+        end = 1; //завершаем игру (поражение)
+    }
+    else if (C == 10 && plus == 10) { //если все кораблики врага уничтожены
+        end = 2; //завершаем игру (победа)
+    }
+    else {
+        C = 0; //счетчик уничтоженных корабликов = 0
+    }
 }
 
 int main() {
@@ -181,14 +206,20 @@ int main() {
     int myShips[12][12] = { 0 };
     int enemyShips[12][12] = { 0 };
     /*
-    0 - то, куда можно ставить кораблики
-    1 - место около кораблика, куда нельзя ставить
-    2 - место, где был выстрел, но не было кораблика
-    3 - место, где был выстрел и находился кораблик
-    4 - кораблики с 1 палубой
-    5 - кораблики с 2 палубой
-    6 - кораблики с 3 палубой
-    7 - кораблики с 4 палубой
+    0 - свободныем места
+	1 - позиции возле корабликов
+	2 - место куда попал снаряд, но где ничего не было
+	3 - место где был снаряд и находился кораблик
+	4 - 1-о палубный кораблик (1-ый)
+	5 - 1-о палубный кораблик (2-ой)
+	6 - 1-о палубный кораблик (3-ий)
+	7 - 1-о палубный кораблик (4-ый)
+	8 - 2-х палубный кораблик (1-ый)
+	9 - 2-х палубный кораблик (2-ой)
+	10 - 2-х палубный кораблик (3-ий)
+	11 - 3-х палубный кораблик (1-ый)
+	12 - 3-х палубный кораблик (2-ой)
+	13 - 4-х палубный кораблик 
     */
 
     Ships* characteristicShips = new Ships[20]; // Создание 10 корабликов (Всего палуб 20)
@@ -196,7 +227,7 @@ int main() {
 
     int key = 1, y = 2, x = 2, num = 0, change = 1, b = 0, xx = 37, yy = 2, up = 0, down = 0, over = 0;
 
-    bool arrangement = true, round = false, your_turn = random(0, 2);
+    bool arrangement = true, round = false, your_turn = true;
     /*
     key - для записи нажатой клавиши
     round - для проверки на начало боя
@@ -430,7 +461,7 @@ int main() {
 
             case Enter:
                 int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
-                switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
+                switch (x) { //Для отрисовки кораблей
                 case 2:
                     x1 = 2;
                     break;
@@ -471,27 +502,14 @@ int main() {
                     }
                 }
                 if (characteristicShips[num].horizontal == true && counter1 == characteristicShips[num].sda) {
-                    characteristicShips[num].x = x, characteristicShips[num].y = y;
+                    characteristicShips[num].x = x + 2, characteristicShips[num].y = y;
                     for (int i = 0; i < 3; i++) {
                         for (int j = 0, c = characteristicShips[num].sda; j < characteristicShips[num].sda + 2; j++, c--) {
                             if ((i == 0 || i == 2) || (i == 1 && j == 0 || j == characteristicShips[num].sda + 1)) {
                                 myShips[y - 2 + i][x1 - 2 + j] = 1; //меняем значение окупируемых позиций в двумерном массиве
                             }
                             else { //меняем значение позиций, где находится корабль в двумерном массиве
-                                switch (characteristicShips[num].sda) {
-                                case 4:
-                                    myShips[y - 1][x1 - 1 + c] = 7;
-                                    break;
-                                case 3:
-                                    myShips[y - 1][x1 - 1 + c] = 6;
-                                    break;
-                                case 2:
-                                    myShips[y - 1][x1 - 1 + c] = 5;
-                                    break;
-                                case 1:
-                                    myShips[y - 1][x1 - 1 + c] = 4;
-                                    break;
-                                }
+                                myShips[y - 1][x1 - 1 + c] = 13 - num;
                             }
                         }
                     }
@@ -506,27 +524,14 @@ int main() {
                     }
                 }
                 if (characteristicShips[num].horizontal == false && counter2 == characteristicShips[num].sda) {
-                    characteristicShips[num].x = x, characteristicShips[num].y = y;
+                    characteristicShips[num].x = x + 2, characteristicShips[num].y = y;
                     for (int i = 0, c = characteristicShips[num].sda; i < characteristicShips[num].sda + 2; i++, c--) {
                         for (int j = 0; j < 3; j++) {
                             if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[num].sda + 1)) {
                                 myShips[y - 2 + i][x1 - 2 + j] = 1;
                             }
                             else {
-                                switch (characteristicShips[num].sda) {
-                                case 4:
-                                    myShips[y - 1 + c][x1 - 1] = 7;
-                                    break;
-                                case 3:
-                                    myShips[y - 1 + c][x1 - 1] = 6;
-                                    break;
-                                case 2:
-                                    myShips[y - 1 + c][x1 - 1] = 5;
-                                    break;
-                                case 1:
-                                    myShips[y - 1 + c][x1 - 1] = 4;
-                                    break;
-                                }
+                                myShips[y - 1 + c][x1 - 1] = 13 - num;
                             }
                         }
                     }
@@ -536,7 +541,7 @@ int main() {
         } while (num <= 9);
         round = true;
     }
-    else if (arrangement == false) {
+    else if (arrangement == false) { // автоматическая расстановка
         Auto(characteristicShips, myShips, 0);
         Pos(myShips, 2);
         round = true;
@@ -582,115 +587,123 @@ int main() {
                     break;
                 case Enter:
                     int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
-                    switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
-                    case 2:
-                        x1 = 2;
+                    switch (xx) { //Для отрисовки кораблей
+                    case 37:
+                        x1 = 37;
                         break;
-                    case 4:
-                        x1 = 3;
+                    case 39:
+                        x1 = 38;
                         break;
-                    case 6:
-                        x1 = 4;
+                    case 41:
+                        x1 = 39;
                         break;
-                    case 8:
-                        x1 = 5;
+                    case 43:
+                        x1 = 40;
                         break;
-                    case 10:
-                        x1 = 6;
+                    case 45:
+                        x1 = 41;
                         break;
-                    case 12:
-                        x1 = 7;
+                    case 47:
+                        x1 = 42;
                         break;
-                    case 14:
-                        x1 = 8;
+                    case 49:
+                        x1 = 43;
                         break;
-                    case 16:
-                        x1 = 9;
+                    case 51:
+                        x1 = 44;
                         break;
-                    case 18:
-                        x1 = 10;
+                    case 53:
+                        x1 = 45;
                         break;
-                    case 20:
-                        x1 = 11;
+                    case 55:
+                        x1 = 46;
                         break;
                     }
-                    if (enemyShips[y - 1][x1 - 35] >= 4) {
-                        for (int i = 0; i < 1; i++) //если это так то мызаменяем в клеточке номерок кораблика на "3"
-                        {
-                            enemyShips[y - 1][x1 - 35 + i] = 3; 
+                    if (enemyShips[y - 1][x1 - 36] >= 4) {
+                        for (int i = 0; i < 1; i++) {
+                            enemyShips[y - 1][x1 - 36] = 3;
                             check_for_destruction(characteristicShips, enemyShips, 10, over); //проверяем на уничтожение
                         }
                         Meny(7); //вывод реплики
                         Sleep(500);
                     }
-                    else if (enemyShips[y - 1][x1 - 35] < 2) {
+                    else if (enemyShips[y - 1][x1 - 36] < 2) { 
                         for (int i = 0; i < 1; i++) {
-                            enemyShips[y - 1][x1 - 35 + i] = 2; 
+                            enemyShips[y - 1][x1 - 36] = 2;
                         }
-                        Sleep(500);
                         Meny(5); //вывод реплики
-                        your_turn = false; 
+                        Sleep(500);
+                        your_turn = false;
                     }
                     break;
                 }
             } while (key != Enter);
-        }
-        if (your_turn == false) {
-            Sleep(0 + rand() % 400);
-            Meny(0); 
-            Pos(myShips, 2);
-            Sleep(0 + rand() % 400);
-            y = random(1, 10), x = (random(1, 10)) * 2;
-            int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
-            switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
-            case 2:
-                x1 = 2;
-                break;
-            case 4:
-                x1 = 3;
-                break;
-            case 6:
-                x1 = 4;
-                break;
-            case 8:
-                x1 = 5;
-                break;
-            case 10:
-                x1 = 6;
-                break;
-            case 12:
-                x1 = 7;
-                break;
-            case 14:
-                x1 = 8;
-                break;
-            case 16:
-                x1 = 9;
-                break;
-            case 18:
-                x1 = 10;
-                break;
-            case 20:
-                x1 = 11;
-                break;
-            }
-            if (myShips[y - 1][x1 - 1] >= 4) {
-                for (int i = 0; i < 2; i++) //если это так то мызаменяем в клеточке номерок кораблика на "3"
-                {
-                    myShips[y - 1][x1 - 2 + i] = 3;
-                    check_for_destruction(characteristicShips, myShips, 0, over); //проверяем на уничтожение
+            if (your_turn == false) {
+                Sleep(0 + rand() % 400);
+                Meny(0);
+                Pos(myShips, 2);
+                Sleep(0 + rand() % 400);
+                y = random(1, 10), x = (random(1, 10)) * 2;
+                int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
+                switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
+                case 2:
+                    x1 = 2;
+                    break;
+                case 4:
+                    x1 = 3;
+                    break;
+                case 6:
+                    x1 = 4;
+                    break;
+                case 8:
+                    x1 = 5;
+                    break;
+                case 10:
+                    x1 = 6;
+                    break;
+                case 12:
+                    x1 = 7;
+                    break;
+                case 14:
+                    x1 = 8;
+                    break;
+                case 16:
+                    x1 = 9;
+                    break;
+                case 18:
+                    x1 = 10;
+                    break;
+                case 20:
+                    x1 = 11;
+                    break;
                 }
-                Meny(2); 
-                Sleep(0 + rand() % 750);
-            }
-            else if (myShips[y - 1][x1 - 1] <= 2) {
-                for (int i = 0; i < 2; i++) {
-                    myShips[y - 1][x1 - 2 + i] = 2;
+                if (myShips[y - 1][x1 - 1] >= 4) {
+                    for (int i = 0; i < 2; i++) //если это так то мызаменяем в клеточке номерок кораблика на "3"
+                    {
+                        myShips[y - 1][x1 - 2 + i] = 3;
+                        check_for_destruction(characteristicShips, myShips, 0, over); //проверяем на уничтожение
+                    }
+                    Meny(2);
+                    Sleep(0 + rand() % 750);
                 }
-                Meny(1); 
-                Sleep(0 + rand() % 750); 
-                your_turn = true;
+                else if (myShips[y - 1][x1 - 1] <= 2) {
+                    for (int i = 0; i < 2; i++) {
+                        myShips[y - 1][x1 - 2 + i] = 2;
+                    }
+                    Meny(1);
+                    Sleep(0 + rand() % 750);
+                    your_turn = true;
+                }
             }
         }
     } while (over == 0);
+    Pos(myShips, 2);
+    Pos_enemy(enemyShips, 37);
+    if (over == 2) {
+        Meny(7);
+    }
+    else {
+        Meny(3);
+    }
+    Sleep(500000);
 }
