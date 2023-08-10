@@ -1,3 +1,4 @@
 ﻿  Project.cpp
-C:\Users\PC\Desktop\SeaBattle\Project\Project.cpp(201,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\PC\Desktop\SeaBattle\Project\Project.cpp(194,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+C:\Users\PC\Desktop\SeaBattle\Project\Project.cpp(732,17): warning C4553: "==": результат выражения не используется; вы хотели использовать "="?
   Project.vcxproj -> C:\Users\PC\Desktop\SeaBattle\Project\x64\Debug\Project.exe

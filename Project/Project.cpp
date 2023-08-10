@@ -10,6 +10,15 @@ struct Ships { // Вроде класс, но все открытo
 enum Napravlenie { Up = 72, Left = 75, Right = 77, Down = 80, Enter = 13, Q = 113}; //клавиши
 // Enum - перечисление констант
 
+void Alive(Ships* characteristicShips) {
+    for (int i = 0; i < 19; i++) {
+        characteristicShips[i].alive = true;
+        characteristicShips[i].horizontal = true;
+        characteristicShips[i].x = 0;
+        characteristicShips[i].y = 0;
+    }
+}
+
 void LoadShips(Ships* characteristicShips) {
     for (int i = 0; i < 20; i++) {
         if (i == 0 || i == 10) {
@@ -81,27 +90,13 @@ void Auto(Ships* characteristicShips, int myShips[12][12], int plus) {
             }
         }
         if (characteristicShips[ship].horizontal == true && counter1 == characteristicShips[ship].sda) {
-            characteristicShips[ship].x = x + 2, characteristicShips[ship].y = y;
+            characteristicShips[ship].x = x1, characteristicShips[ship].y = y;
             for (int i = 0; i < 3; i++) {
                 for (int j = 0, c = characteristicShips[ship].sda; j < characteristicShips[ship].sda + 2; j++, c--) {
                     if ((i == 0 || i == 2) || (i == 1 && j == 0 || j == characteristicShips[ship].sda + 1)) {
                         myShips[y - 2 + i][x1 - 2 + j] = 1; //меняем значение окупируемых позиций в двумерном массиве
                     }
                     else { //меняем значение позиций, где находится корабль в двумерном массиве
-                       /* switch (characteristicShips[ship].sda) {
-                        case 4:
-                            myShips[y - 1][x1 - 1 + c] = 7;
-                            break;
-                        case 3:
-                            myShips[y - 1][x1 - 1 + c] = 6;
-                            break;
-                        case 2:
-                            myShips[y - 1][x1 - 1 + c] = 5;
-                            break;
-                        case 1:
-                            myShips[y - 1][x1 - 1 + c] = 4;
-                            break;
-                        }*/
                         myShips[y - 1][x1 - 1 + c] = 13 - ship + plus;
                     }
                 }
@@ -117,7 +112,7 @@ void Auto(Ships* characteristicShips, int myShips[12][12], int plus) {
             }
         }
         if (characteristicShips[ship].horizontal == false && counter2 == characteristicShips[ship].sda) {
-            characteristicShips[ship].x = x + 2, characteristicShips[ship].y = y;
+            characteristicShips[ship].x = x1, characteristicShips[ship].y = y;
             for (int i = 0, c = characteristicShips[ship].sda; i < characteristicShips[ship].sda + 2; i++, c--) {
                 for (int j = 0; j < 3; j++) {
                     if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[ship].sda + 1)) {
@@ -133,67 +128,65 @@ void Auto(Ships* characteristicShips, int myShips[12][12], int plus) {
     }
 }
 
-void check_for_destruction(Ships* characteristicShips, int mas[12][12], int plus, int& end) {
-    int A = 0; //для правильной зарисовки границы вокруг взоравнного кораблика
+void check_for_destruction(Ships* characteristicShips, int mas[12][12], int plus, int& end, int& sz) {
     int B = 13; //переменная, которая будет помогать указывать на нужный кораблик
-    int C = 0; //хранение количества уничтоженных корабликов
     bool alive = false;
     for (int n = 13; n > 3; n--) {
         for (int i = 1; i < 11; i++) {
             for (int j = 1; j < 11; j++) {
-                if (mas[i][j] == n) { //проверяем, есть ли в массиве хоть один номерок с корабликом
-                    alive = true; //в случае успеха - кораблик жив/ранен
-                    i = 11;
+                if (mas[i][j] == n) {
+                    alive = true;
+                    i = 11; 
                     break;
                 }
             }
         }
         if (alive == false) {
-            characteristicShips[B - n + plus].alive = false;
+            characteristicShips[B - n + plus].alive = false; 
         }
         else {
-            alive = false;
+            alive = false; 
         }
     }
 
-    for (int i = plus; i < 10 + plus; i++) { //цикл для проверки всех кораблей одной команды на уничтожение
+    for (int i = plus; i < 10 + plus; i++) {
         if (characteristicShips[i].alive == false) {
-            //if (characteristicShips[i].horizontal == true) {
-            //    for (int j = 0; j < 3; j++) {
-            //        for (int c = 0, s = characteristicShips[i].sda; c < characteristicShips[i].sda + 2; c++, s--) {
-            //            if ((j == 0 || j == 2) || (j == 1 && c == 0 || c == characteristicShips[i].sda + 1)) {
-            //                mas[characteristicShips[i].y - 2 + j][characteristicShips[i].x - 2 + c] = 2; //меняем значение позиций массиве, который будем прверять на 2
-            //            }
-            //            else {
-            //                mas[characteristicShips[i].y - 1][characteristicShips[i].x - 2 + s] = 3; //меняем значение позиций массиве, который будем прверять на 3 
-            //            }
-            //        }
-            //    }
-            //}
-            //else if (characteristicShips[i].horizontal == false) {
-            //    for (int j = 0, s = characteristicShips[i].sda; j < characteristicShips[i].sda + 2; j++, s--) {
-            //        for (int c = 0; c < 3; c++) {
-            //            if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[i].sda + 1)) {
-            //                mas[characteristicShips[i].y - 2 + j][characteristicShips[i].x - 2 + c] = 2;
-            //            }
-            //            else {
-            //                mas[characteristicShips[i].y - 1 + s][characteristicShips[i].x - 1] = 3;
-            //            }  
-            //        }
-            //    }
-            //}
-            C++;
+            if (characteristicShips[i].horizontal == true) {
+                for (int j = 0; j < 3; j++) {
+                    for (int w = 0, c = characteristicShips[i].sda; w < characteristicShips[i].sda + 2; w++, c--) {
+                        if ((j == 0 || j == 2) || (j == 1 && w == 0 || w == characteristicShips[i].sda + 1)) {
+                            mas[characteristicShips[i].y - 2 + j][characteristicShips[i].x - 2 + w] = 2;
+                        }
+                        else {
+                            mas[characteristicShips[i].y - 1][characteristicShips[i].x - 1 + c] = 3;
+                        }
+                    }
+                } 
+            }
+            else if (characteristicShips[i].horizontal == false) {
+                for (int j = 0, c = characteristicShips[i].sda; j < characteristicShips[i].sda + 2; j++, c--) {
+                    for (int w = 0; w < 3; w++) {
+                        if ((w == 0 || w == 2) || (w == 1 && j == 0 || j == characteristicShips[i].sda + 1)) {
+                            mas[characteristicShips[i].y - 2 + j][characteristicShips[i].x - 2 + w] = 2;
+                        }
+                        else {
+                            mas[characteristicShips[i].y - 1 + c][characteristicShips[i].x - 1] = 3;
+                        }
+                    }
+                }
+            }
+            sz++;
         }
     }
 
-    if (C == 10 && plus == 0) { //если все наши кораблики уничтожены
+    if (sz == 10 && plus == 0) { //если все наши кораблики уничтожены
         end = 1; //завершаем игру (поражение)
     }
-    else if (C == 10 && plus == 10) { //если все кораблики врага уничтожены
+    else if (sz == 10 && plus == 10) { //если все кораблики врага уничтожены
         end = 2; //завершаем игру (победа)
     }
     else {
-        C = 0; //счетчик уничтоженных корабликов = 0
+        sz = 0; //счетчик уничтоженных корабликов = 0
     }
 }
 
@@ -203,6 +196,7 @@ int main() {
 
     char var[2][30] = { "Автоматическая расстановка ","Ручная расстановка " };
     char menu[5][15] = { "МОРСКОЙ БОЙ","Играть ","Управление ","История ","Выход " };
+    char var2[2][20] = { "Главное меню ", "Сыграть еще раз " };
     int myShips[12][12] = { 0 };
     int enemyShips[12][12] = { 0 };
     /*
@@ -225,7 +219,7 @@ int main() {
     Ships* characteristicShips = new Ships[20]; // Создание 10 корабликов (Всего палуб 20)
     LoadShips(characteristicShips);
 
-    int key = 1, y = 2, x = 2, num = 0, change = 1, b = 0, xx = 37, yy = 2, up = 0, down = 0, over = 0;
+    int key = 1, y = 2, x = 2, num = 0, change = 1, b = 0, xx = 37, yy = 2, up = 0, down = 0, over = 0, end = 0, sz = 0;
 
     bool arrangement = true, round = false, your_turn = true;
     /*
@@ -335,315 +329,316 @@ int main() {
         }
     } while (b < 1);
 
-    b = 0, s = 1, change = 1; // На всякий верну на прежние значения
+    b = 0, s = 0, change = 0;
 
-    system("cls");
-
-    Choice_2(var, change);
     do {
-        key = _getch();
-        switch (key) {
-        case Up:
-            if (s > 0) {
-                s--; 
-                change = s; 
-                Choice_2(var, change); 
-            }
-            break;
-        case Down:
-            if (s < 1) {
-                s++; 
-                change = s; 
-                Choice_2(var, change);
-            }
-            break;
-        case Enter:
-            do {
-                switch (change) {
-                case 0:
-                    arrangement = false; //автоматическая расстанвкоа
-                    b++; 
-                    break;
-                case 1:
-                    arrangement = true; //ручная расстановка
-                    b++; 
-                    s++;
-                    break;
-                }
-            } while (key != Enter);
-        }
-    } while (b < 1);
+        system("cls");
 
-    system("cls");
-    Createfield(0);
-    
-    if (arrangement == true) { // ручная расстановка
+        Choice_2(var, change);
         do {
-            Pos(myShips, 2);
-            SetCursor(x, y);
-            if (characteristicShips[num].horizontal == true) {
-                for (int i = 0; i < characteristicShips[num].sda; i++) {
-                    cout << "# ";
-                }
-            }
-            else if (characteristicShips[num].horizontal == false) {
-                y += characteristicShips[num].sda; //изменяем позицию по "y" на то сколько палуб у кораблика
-                for (int i = 0; i < characteristicShips[num].sda; i++) { //запускаем цикл который будет отрисовыввать кораблик с нужным колличеством палуб
-                    cout << "# ";
-                    y--; 
-                    SetCursor(x, y);
-                }
-            }
             key = _getch();
             switch (key) {
-            case Left:
-                if (x > 2) {
-                    x -= 2;
+            case Up:
+                if (s > 0) {
+                    s--;
+                    change = s;
+                    Choice_2(var, change);
                 }
                 break;
-
-            case Right:
-                if (characteristicShips[num].horizontal == true) {
-                    if (num < 3) {
-                        if (x < 18 - characteristicShips[num].sda) {
-                            x += 2;
-                        }
+            case Down:
+                if (s < 1) {
+                    s++;
+                    change = s;
+                    Choice_2(var, change);
+                }
+                break;
+            case Enter:
+                do {
+                    switch (change) {
+                    case 0:
+                        arrangement = false; //автоматическая расстанвкоа
+                        b++;
+                        break;
+                    case 1:
+                        arrangement = true; //ручная расстановка
+                        b++;
+                        s++;
+                        break;
                     }
-                    else if (num > 2 && num < 6) {
-                        if (x < 20 - characteristicShips[num].sda) {
-                            x += 2;
+                } while (key != Enter);
+            }
+        } while (b < 1);
+
+        b = 0, s = 0, change = 0;
+
+        system("cls");
+        Createfield(0);
+
+        if (arrangement == true) { // ручная расстановка
+            do {
+                Pos(myShips, 2);
+                SetCursor(x, y);
+                if (characteristicShips[num].horizontal == true) {
+                    for (int i = 0; i < characteristicShips[num].sda; i++) {
+                        cout << "# ";
+                    }
+                }
+                else if (characteristicShips[num].horizontal == false) {
+                    y += characteristicShips[num].sda; //изменяем позицию по "y" на то сколько палуб у кораблика
+                    for (int i = 0; i < characteristicShips[num].sda; i++) { //запускаем цикл который будет отрисовыввать кораблик с нужным колличеством палуб
+                        cout << "# ";
+                        y--;
+                        SetCursor(x, y);
+                    }
+                }
+                key = _getch();
+                switch (key) {
+                case Left:
+                    if (x > 2) {
+                        x -= 2;
+                    }
+                    break;
+
+                case Right:
+                    if (characteristicShips[num].horizontal == true) {
+                        if (num < 3) {
+                            if (x < 18 - characteristicShips[num].sda) {
+                                x += 2;
+                            }
+                        }
+                        else if (num > 2 && num < 6) {
+                            if (x < 20 - characteristicShips[num].sda) {
+                                x += 2;
+                            }
+                        }
+                        else {
+                            if (x < 21 - characteristicShips[num].sda) {
+                                x += 2;
+                            }
                         }
                     }
                     else {
-                        if (x < 21 - characteristicShips[num].sda) {
+                        if (x < 20) {
                             x += 2;
                         }
                     }
-                }
-                else {
-                    if (x < 20) {
-                        x += 2;
-                    }
-                }
-                break;
+                    break;
 
-            case Up:
-                if (y > 2) {
-                    y--;
-                }
-                break;
-
-            case Down:
-                if (characteristicShips[num].horizontal == false) {
-                    if (y < 12 - characteristicShips[num].sda) {
-                        y++;
-                    }
-                }
-                else {
-                    if (y < 11) {
-                        y++;
-                    }
-                }
-                break;
-
-            case Q:
-                characteristicShips[num].horizontal = !characteristicShips[num].horizontal; //изменяем ориентацию кораблика на противоположную
-                if (characteristicShips[num].horizontal == false && y + characteristicShips[num].sda >= 13) {
-                    y -= y + characteristicShips[num].sda - 12; 
-                }
-                else if (characteristicShips[num].horizontal == true && x + characteristicShips[num].sda * 2 >= 24) {
-                    x -= (x + characteristicShips[num].sda * 2) - 22; 
-                }
-                for (int i = 0; i < 10 - num; i++) { //изменяем ориентацию так же и для последующих корабликов
-                    characteristicShips[num + i].horizontal = characteristicShips[num].horizontal; 
-                }
-                break;
-
-            case Enter:
-                int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
-                switch (x) { //Для отрисовки кораблей
-                case 2:
-                    x1 = 2;
-                    break;
-                case 4:
-                    x1 = 3;
-                    break;
-                case 6:
-                    x1 = 4;
-                    break;
-                case 8:
-                    x1 = 5;
-                    break;
-                case 10:
-                    x1 = 6;
-                    break;
-                case 12:
-                    x1 = 7;
-                    break;
-                case 14:
-                    x1 = 8;
-                    break;
-                case 16:
-                    x1 = 9;
-                    break;
-                case 18:
-                    x1 = 10;
-                    break;
-                case 20:
-                    x1 = 11;
-                    break;
-                }
-                int counter1 = 0, counter2 = 0;
-                if (characteristicShips[num].horizontal == true) { 
-                    for (int j = 0; j < characteristicShips[num].sda; j++) {
-                        if (myShips[y - 1][x1 - 1 + j] == 0) {
-                            counter1++;
-                        }
-                    }
-                }
-                if (characteristicShips[num].horizontal == true && counter1 == characteristicShips[num].sda) {
-                    characteristicShips[num].x = x + 2, characteristicShips[num].y = y;
-                    for (int i = 0; i < 3; i++) {
-                        for (int j = 0, c = characteristicShips[num].sda; j < characteristicShips[num].sda + 2; j++, c--) {
-                            if ((i == 0 || i == 2) || (i == 1 && j == 0 || j == characteristicShips[num].sda + 1)) {
-                                myShips[y - 2 + i][x1 - 2 + j] = 1; //меняем значение окупируемых позиций в двумерном массиве
-                            }
-                            else { //меняем значение позиций, где находится корабль в двумерном массиве
-                                myShips[y - 1][x1 - 1 + c] = 13 - num;
-                            }
-                        }
-                    }
-                    num++;
-                }
-
-                if (characteristicShips[num].horizontal == false) {
-                    for (int j = 0; j < characteristicShips[num].sda; j++) {
-                        if (myShips[y - 1 + j][x1 - 1] == 0) {
-                            counter2++;
-                        }
-                    }
-                }
-                if (characteristicShips[num].horizontal == false && counter2 == characteristicShips[num].sda) {
-                    characteristicShips[num].x = x + 2, characteristicShips[num].y = y;
-                    for (int i = 0, c = characteristicShips[num].sda; i < characteristicShips[num].sda + 2; i++, c--) {
-                        for (int j = 0; j < 3; j++) {
-                            if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[num].sda + 1)) {
-                                myShips[y - 2 + i][x1 - 2 + j] = 1;
-                            }
-                            else {
-                                myShips[y - 1 + c][x1 - 1] = 13 - num;
-                            }
-                        }
-                    }
-                    num++; 
-                }
-            }
-        } while (num <= 9);
-        round = true;
-    }
-    else if (arrangement == false) { // автоматическая расстановка
-        Auto(characteristicShips, myShips, 0);
-        Pos(myShips, 2);
-        round = true;
-    }
-
-    Sleep(20);
-    Createfield(35);
-
-    Auto(characteristicShips, enemyShips, 10);
-    Pos_enemy(myShips, 37);
-    do {
-        if (your_turn == true) {
-            do {
-                x = xx, y = yy; //переменная которая будет запоминать где находился курсор 
-                Pos_enemy(enemyShips, 37);
-                SetCursor(x, y);
-                cout << "@ ";
-                key = _getch();
-                switch (key) {
-                case Left: 
-                    if (x > 38) {
-                        x -= 2; 
-                        xx = x; 
-                    }
-                    break;
-                case Right: 
-                    if (x < 55) {
-                        x += 2;
-                        xx = x; 
-                    }
-                    break; 
                 case Up:
                     if (y > 2) {
-                        y--;  
-                        yy = y;
-                    }
-                    break; 
-                case Down:
-                    if (y < 11) {
-                        y++;
-                        yy = y;
+                        y--;
                     }
                     break;
+
+                case Down:
+                    if (characteristicShips[num].horizontal == false) {
+                        if (y < 12 - characteristicShips[num].sda) {
+                            y++;
+                        }
+                    }
+                    else {
+                        if (y < 11) {
+                            y++;
+                        }
+                    }
+                    break;
+
+                case Q:
+                    characteristicShips[num].horizontal = !characteristicShips[num].horizontal; //изменяем ориентацию кораблика на противоположную
+                    if (characteristicShips[num].horizontal == false && y + characteristicShips[num].sda >= 13) {
+                        y -= y + characteristicShips[num].sda - 12;
+                    }
+                    else if (characteristicShips[num].horizontal == true && x + characteristicShips[num].sda * 2 >= 24) {
+                        x -= (x + characteristicShips[num].sda * 2) - 22;
+                    }
+                    for (int i = 0; i < 10 - num; i++) { //изменяем ориентацию так же и для последующих корабликов
+                        characteristicShips[num + i].horizontal = characteristicShips[num].horizontal;
+                    }
+                    break;
+
                 case Enter:
                     int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
-                    switch (xx) { //Для отрисовки кораблей
-                    case 37:
-                        x1 = 37;
+                    switch (x) { //Для отрисовки кораблей
+                    case 2:
+                        x1 = 2;
                         break;
-                    case 39:
-                        x1 = 38;
+                    case 4:
+                        x1 = 3;
                         break;
-                    case 41:
-                        x1 = 39;
+                    case 6:
+                        x1 = 4;
                         break;
-                    case 43:
-                        x1 = 40;
+                    case 8:
+                        x1 = 5;
                         break;
-                    case 45:
-                        x1 = 41;
+                    case 10:
+                        x1 = 6;
                         break;
-                    case 47:
-                        x1 = 42;
+                    case 12:
+                        x1 = 7;
                         break;
-                    case 49:
-                        x1 = 43;
+                    case 14:
+                        x1 = 8;
                         break;
-                    case 51:
-                        x1 = 44;
+                    case 16:
+                        x1 = 9;
                         break;
-                    case 53:
-                        x1 = 45;
+                    case 18:
+                        x1 = 10;
                         break;
-                    case 55:
-                        x1 = 46;
+                    case 20:
+                        x1 = 11;
                         break;
                     }
-                    if (enemyShips[y - 1][x1 - 36] >= 4) {
-                        for (int i = 0; i < 1; i++) {
-                            enemyShips[y - 1][x1 - 36] = 3;
-                            check_for_destruction(characteristicShips, enemyShips, 10, over); //проверяем на уничтожение
+                    int counter1 = 0, counter2 = 0;
+                    if (characteristicShips[num].horizontal == true) {
+                        for (int j = 0; j < characteristicShips[num].sda; j++) {
+                            if (myShips[y - 1][x1 - 1 + j] == 0) {
+                                counter1++;
+                            }
                         }
-                        Meny(7); //вывод реплики
-                        Sleep(500);
                     }
-                    else if (enemyShips[y - 1][x1 - 36] < 2) { 
-                        for (int i = 0; i < 1; i++) {
-                            enemyShips[y - 1][x1 - 36] = 2;
+                    if (characteristicShips[num].horizontal == true && counter1 == characteristicShips[num].sda) {
+                        characteristicShips[num].x = x1, characteristicShips[num].y = y;
+                        for (int i = 0; i < 3; i++) {
+                            for (int j = 0, c = characteristicShips[num].sda; j < characteristicShips[num].sda + 2; j++, c--) {
+                                if ((i == 0 || i == 2) || (i == 1 && j == 0 || j == characteristicShips[num].sda + 1)) {
+                                    myShips[y - 2 + i][x1 - 2 + j] = 1; //меняем значение окупируемых позиций в двумерном массиве
+                                }
+                                else { //меняем значение позиций, где находится корабль в двумерном массиве
+                                    myShips[y - 1][x1 - 1 + c] = 13 - num;
+                                }
+                            }
                         }
-                        Meny(5); //вывод реплики
-                        Sleep(500);
-                        your_turn = false;
+                        num++;
                     }
-                    break;
+
+                    if (characteristicShips[num].horizontal == false) {
+                        for (int j = 0; j < characteristicShips[num].sda; j++) {
+                            if (myShips[y - 1 + j][x1 - 1] == 0) {
+                                counter2++;
+                            }
+                        }
+                    }
+                    if (characteristicShips[num].horizontal == false && counter2 == characteristicShips[num].sda) {
+                        characteristicShips[num].x = x1, characteristicShips[num].y = y;
+                        for (int i = 0, c = characteristicShips[num].sda; i < characteristicShips[num].sda + 2; i++, c--) {
+                            for (int j = 0; j < 3; j++) {
+                                if ((j == 0 || j == 2) || (j == 1 && i == 0 || i == characteristicShips[num].sda + 1)) {
+                                    myShips[y - 2 + i][x1 - 2 + j] = 1;
+                                }
+                                else {
+                                    myShips[y - 1 + c][x1 - 1] = 13 - num;
+                                }
+                            }
+                        }
+                        num++;
+                    }
                 }
-            } while (key != Enter);
+            } while (num <= 9);
+            round = true;
+        }
+        else if (arrangement == false) { // автоматическая расстановка
+            Auto(characteristicShips, myShips, 0);
+            Pos(myShips, 2);
+            round = true;
+        }
+
+        Sleep(20);
+        Createfield(35);
+
+        Auto(characteristicShips, enemyShips, 10);
+        Pos_enemy(myShips, 37);
+        do {
+            if (your_turn == true) {
+                do {
+                    Meny(3);
+                    x = xx, y = yy; //переменная которая будет запоминать где находился курсор 
+                    Pos_enemy(enemyShips, 37);
+                    SetCursor(x, y);
+                    cout << "@ ";
+                    key = _getch();
+                    switch (key) {
+                    case Left:
+                        if (x > 38) {
+                            x -= 2;
+                            xx = x;
+                        }
+                        break;
+                    case Right:
+                        if (x < 55) {
+                            x += 2;
+                            xx = x;
+                        }
+                        break;
+                    case Up:
+                        if (y > 2) {
+                            y--;
+                            yy = y;
+                        }
+                        break;
+                    case Down:
+                        if (y < 11) {
+                            y++;
+                            yy = y;
+                        }
+                        break;
+                    case Enter:
+                        int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
+                        switch (xx) { //Для отрисовки кораблей
+                        case 37:
+                            x1 = 37;
+                            break;
+                        case 39:
+                            x1 = 38;
+                            break;
+                        case 41:
+                            x1 = 39;
+                            break;
+                        case 43:
+                            x1 = 40;
+                            break;
+                        case 45:
+                            x1 = 41;
+                            break;
+                        case 47:
+                            x1 = 42;
+                            break;
+                        case 49:
+                            x1 = 43;
+                            break;
+                        case 51:
+                            x1 = 44;
+                            break;
+                        case 53:
+                            x1 = 45;
+                            break;
+                        case 55:
+                            x1 = 46;
+                            break;
+                        }
+                        if (enemyShips[y - 1][x1 - 36] >= 4) {
+                            enemyShips[y - 1][x1 - 36] = 3;
+                            check_for_destruction(characteristicShips, enemyShips, 10, over, sz); //проверяем на уничтожение
+                            Meny(5); //вывод реплики
+                            Sleep(600);
+                        }
+                        else if (enemyShips[y - 1][x1 - 36] < 2) {
+                            enemyShips[y - 1][x1 - 36] = 2;
+                            Meny(4); //вывод реплики
+                            Sleep(600);
+                            your_turn = false;
+                        }
+                        break;
+                    }
+                } while (key != Enter);
+            }
             if (your_turn == false) {
                 Sleep(0 + rand() % 400);
                 Meny(0);
                 Pos(myShips, 2);
-                Sleep(0 + rand() % 400);
-                y = random(1, 10), x = (random(1, 10)) * 2;
+                Sleep(random(300, 500));
+                y = random(2, 11), x = (random(1, 10)) * 2;
                 int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
                 switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
                 case 2:
@@ -678,32 +673,102 @@ int main() {
                     break;
                 }
                 if (myShips[y - 1][x1 - 1] >= 4) {
-                    for (int i = 0; i < 2; i++) //если это так то мызаменяем в клеточке номерок кораблика на "3"
-                    {
-                        myShips[y - 1][x1 - 2 + i] = 3;
-                        check_for_destruction(characteristicShips, myShips, 0, over); //проверяем на уничтожение
-                    }
+                    myShips[y - 1][x1 - 1] = 3;
+                    check_for_destruction(characteristicShips, myShips, 0, over, sz); //проверяем на уничтожение
                     Meny(2);
-                    Sleep(0 + rand() % 750);
+                    Sleep(600);
                 }
-                else if (myShips[y - 1][x1 - 1] <= 2) {
-                    for (int i = 0; i < 2; i++) {
-                        myShips[y - 1][x1 - 2 + i] = 2;
-                    }
+                else if (myShips[y - 1][x1 - 1] < 2) {
+                    myShips[y - 1][x1 - 1] = 2;
                     Meny(1);
-                    Sleep(0 + rand() % 750);
+                    Sleep(600);
                     your_turn = true;
                 }
             }
+        } while (over == 0);
+
+        Pos(myShips, 2);
+        Pos_enemy(enemyShips, 37);
+
+        if (over == 2) {
+            Meny(6);
+            Choice_3(var2, change);
+            do {
+                key = _getch();
+                switch (key) {
+                case Left:
+                    if (s > 0) {
+                        s--;
+                        change = s;
+                        Choice_3(var2, change);
+                    }
+                    break;
+                case Right:
+                    if (s < 1) {
+                        s++;
+                        change = s;
+                        Choice_3(var2, change);
+                    }
+                    break;
+                case Enter:
+                    do {
+                        switch (change) {
+                        case 0:
+                            b++;
+                            break;
+                        case 1:
+                            b++;
+                            break;
+                        }
+                    } while (key != Enter);
+                }
+            } while (b < 1);
+            b = 0, s = 0, change = 0;
+            Clear(myShips, enemyShips);
+            Alive(characteristicShips);
+            sz = 0;
         }
-    } while (over == 0);
-    Pos(myShips, 2);
-    Pos_enemy(enemyShips, 37);
-    if (over == 2) {
-        Meny(7);
-    }
-    else {
-        Meny(3);
-    }
-    Sleep(500000);
+        else {
+            end == 1;
+            Meny(7);
+            Choice_3(var2, change);
+            do {
+                key = _getch();
+                switch (key) {
+                case Left:
+                    if (s > 1) {
+                        s--;
+                        change = s;
+                        Choice_3(var2, change);
+                    }
+                    break;
+                case Right:
+                    if (s < 1) {
+                        s++;
+                        change = s;
+                        Choice_3(var2, change);
+                    }
+                    break;
+                case Enter:
+                    do {
+                        switch (change) {
+                        case 0:
+                            b++;
+                            break;
+                        case 1:
+                            b++;
+                            break;
+                        }
+                    } while (key != Enter);
+                }
+            } while (b < 1);
+            b = 0, s = 0, change = 0;
+            Clear(myShips, enemyShips);
+            Alive(characteristicShips);
+            sz = 0;
+        }
+
+    } while (end == 0);
+    
+    //Sleep(500000);
 }

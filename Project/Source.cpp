@@ -1,42 +1,5 @@
 #include "Header.h"
 
-//char** creatingField() {
-//    char** field = new char* [SIZE_FIELD + 1];
-//    for (int i = 0; i < SIZE_FIELD + 1; i++) {
-//        field[i] = new char[SIZE_FIELD + 1] {};
-//    } return field;
-//}
-//
-//void initField(char** field) {
-//    char mas1[10] = { 'А','Б','В','Г','Д','Е','Ж','З','И','К' };
-//    char mas2[10] = { '1','2','3','4','5','6','7','8','9','0' };
-//
-//    int a = 0, b = 0; // переменные для прохода по массивам букв и цмфр
-//    for (int i = 0; i < SIZE_FIELD + 1; i++) {
-//        for (int j = 0; j < SIZE_FIELD + 1; j++) {
-//            if (i > 0 && j > 0) {
-//                field[i][j] = '~';
-//            }
-//            if (i == 0 && j > 0) {
-//                field[i][j] = mas1[a++]; //ряд из букв   }
-//            }
-//            else if (j == 0 && i > 0) {
-//                field[i][j] = mas2[b++]; // столбец из цифр
-//            }
-//        }
-//    }
-//}
-//
-//void ShowField(char** field) {
-//    for (int i = 0; i < SIZE_FIELD + 1; i++) {
-//        for (int j = 0; j < SIZE_FIELD + 1; j++) {
-//            cout << field[i][j] << " ";
-//        }
-//        cout << endl;
-//    }
-//    cout << endl;
-//}
-
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); //Дескриптор активного окна
 
 void SetCursor(int x, int y) { //функция для того чтобы устанавливать позицию курсора в консоли по оси Х и Y
@@ -84,6 +47,21 @@ void Choice_2(char var[][30], int a) { // Выбор расстановки
     }
     SetCursor(0, 0);
     Createfield(0);
+}
+
+void Choice_3(char var1[][20], int a) {
+    for (int i = 0; i < 2; i++) {
+        SetCursor(0 + i * 20, 25);
+        for (int j = 0; j < 20; j++) {
+            if (i == a) {
+                var1[i][18] = '<';
+            }
+            else {
+                var1[i][18] = ' ';
+            }
+            cout << var1[i][j];
+        }
+    }
 }
 
 void Createfield(int x) {
@@ -159,13 +137,24 @@ void Pos_enemy(int mas[12][12], int x) {
 }
 
 void Meny(int num) {
-    char replicas[9][40] = { "Враг думает, куда ударить... ","Враг промазал ", "Враг попал ", "Ты проиграл, в следующий раз повезет ",
-        "Твой ход " , "Ты промазал...", "Победа! Не хочешь ещё раз сыграть ? ",
-        "Ты попал, ходи снова! ", "Ты уничтожил вражеский корабль! " };
+    char replicas[8][40] = { "Враг думает, куда ударить... ","Враг промазал ", "Враг попал ",
+        "Твой ход " , "Ты промазал...", "Ты попал!", "Поздравляю, ты победил!", "К сожалению, ты проиграл!" };
 
     SetCursor(22, 15); 
-
+    for (int i = 0; i < 30; i++) {
+        cout << " ";
+    }
+    SetCursor(22, 15);
     for (int i = 0; i < 30; i++) {
         cout << replicas[num][i];
+    }
+}
+
+void Clear(int myShips[12][12], int enemyShips[12][12]) {
+    for (int i = 0; i < 11; i++) {
+        for (int j = 0; j < 11; j++) {
+            myShips[i][j] = { 0 };
+            enemyShips[i][j] = { 0 };
+        }
     }
 }
