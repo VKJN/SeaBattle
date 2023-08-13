@@ -101,7 +101,7 @@ void Pos(int mas[12][12], int x) { //прорисовка игровой карты с положением поста
                 cout << "* ";
             }
             else if (mas[i][j] == 3) {
-                cout << "! ";
+                cout << "X ";
             }
             else if (mas[i][j] >= 4) {
                 cout << "# ";
@@ -123,11 +123,11 @@ void Pos_enemy(int mas[12][12], int x) {
                 cout << "* ";
             }
             else if (mas[i][j] == 3) {
-                cout << "! ";
+                cout << "X ";
             }
-            else if (mas[i][j] >= 4) {
+            /*else if (mas[i][j] >= 4) {
                 cout << "# ";
-            }
+            }*/
             else {
                 cout << "~ ";
             }
@@ -150,11 +150,18 @@ void Meny(int num) {
     }
 }
 
-void Clear(int myShips[12][12], int enemyShips[12][12]) {
+void All_clear(int myShips[12][12], int enemyShips[12][12], int& key, int& y, int& x, int& num,
+    int& xx, int& yy, int& over, int& end, bool& arrangement, bool& round, bool& your_turn) {
     for (int i = 0; i < 11; i++) {
         for (int j = 0; j < 11; j++) {
-            myShips[i][j] = { 0 };
-            enemyShips[i][j] = { 0 };
+            myShips[i][j] = 0;
+            enemyShips[i][j] = 0;
         }
     }
+    key = 1, y = 2, x = 2, num = 0, xx = 37, yy = 2, over = 0, end = 0;
+    arrangement = true, round = false, your_turn = true;
+}
+
+void Game_counter(string path, int play, int result, int a) {
+
 }
