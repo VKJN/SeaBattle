@@ -236,8 +236,8 @@ int main() {
     num - номер кораблкиа
     arrangement - тип расстановки который будет использован
     */
-
-    string path_history = "C:\\Users\\PC\\Desktop\\SeaBattle\\History.txt"; // Доп текстовые файлы
+    
+    // Доп текстовый файл
     string path_control = "C:\\Users\\PC\\Desktop\\SeaBattle\\Control.txt";
 
     // Игра
@@ -303,19 +303,8 @@ int main() {
                     case 3:
                     {
                         system("cls");
-                        ifstream file_in;
-                        string str;
-                        file_in.open(path_history);
-                        if (file_in.is_open()) {
-                            while (getline(file_in, str)) {
-                                cout << str << endl;
-                            }
-                        }
-                        else {
-                            cout << "Ошибка файла";
-                            exit(0);
-                        }
-                        file_in.close();
+                        cout << "Игры сыграно: " << all_plays << endl << endl << 
+                            "Побед - " << win << endl << "Поражений - " << defeat;
                         cout << endl << "Нажмите любую клавишу, чтобы вернуться: ";
                         int a = _getch();
                         if (a != 0) {
@@ -734,10 +723,9 @@ int main() {
                     }
                 } while (b < 1);
                 b = 0, s = 0, change = 0;
-                All_clear(myShips, enemyShips, key, y, x, num, xx, yy, over, end, 
+                All_clear(myShips, enemyShips, key, y, x, num, xx, yy, over, 
                     arrangement, round, your_turn);
                 Alive(characteristicShips);
-                Game_counter(path_history, all_plays, win, 2);
             }
             else {
                 defeat++;
@@ -776,7 +764,7 @@ int main() {
                     }
                 } while (b < 1);
                 b = 0, s = 0, change = 0;
-                All_clear(myShips, enemyShips, key, y, x, num, xx, yy, over, end,
+                All_clear(myShips, enemyShips, key, y, x, num, xx, yy, over,
                     arrangement, round, your_turn);
                 Alive(characteristicShips);
             }

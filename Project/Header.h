@@ -29,6 +29,4 @@ void Pos_enemy(int mas[12][12], int x);
 void Meny(int num);
 
 void All_clear(int myShips[12][12], int enemyShips[12][12], int& key, int& y, int& x, int& num,
-	int& xx, int& yy, int& over, int& end, bool& arrangement, bool& round, bool& your_turn);
-
-void Game_counter(string path, int play, int result, int a);
+	int& xx, int& yy, int& over, bool& arrangement, bool& round, bool& your_turn);

@@ -1,4 +1,7 @@
-﻿  Source.cpp
+﻿  Project.cpp
+C:\Users\PC\Desktop\SeaBattle\Project\Project.cpp(195,15): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Source.cpp
 C:\Users\PC\Desktop\SeaBattle\Project\Source.cpp(6,22): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
 C:\Users\PC\Desktop\SeaBattle\Project\Source.cpp(6,24): warning C4838: Преобразование из "int" в "SHORT" требует сужающего преобразования.
+  Создание кода...
   Project.vcxproj -> C:\Users\PC\Desktop\SeaBattle\Project\x64\Debug\Project.exe
