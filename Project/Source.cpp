@@ -122,12 +122,12 @@ void Pos_enemy(int mas[12][12], int x) {
             if (mas[i][j] == 2) {
                 cout << "* ";
             }
-            /*else if (mas[i][j] == 3) {
+            else if (mas[i][j] == 3) {
                 cout << "X ";
-            }*/
-            else if (mas[i][j] >= 4) {
-                cout << "# ";
             }
+            /*else if (mas[i][j] >= 4) {
+                cout << "# ";
+            }*/
             else {
                 cout << "~ ";
             }

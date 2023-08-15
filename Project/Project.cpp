@@ -220,10 +220,10 @@ int main() {
     Ships* characteristicShips = new Ships[20]; // Создание 10 корабликов (Всего палуб 20)
     LoadShips(characteristicShips);
 
-    int win = 0, all_plays = 0, defeat = 0;
+    int win = 0, all_plays = 0, defeat = 0; // Подсчет игр и их результата
 
     int key = 1, y = 2, x = 2, num = 0, change = 1, b = 0, xx = 37, yy = 2, over = 0, end = 0;
-    bool arrangement = true, round = false, your_turn = true;
+    bool arrangement = true, round = false, your_turn = false;
     /*
     key - для записи нажатой клавиши
     round - для проверки на начало боя
@@ -616,12 +616,12 @@ int main() {
                                 enemyShips[y - 1][x1 - 36] = 3;
                                 check_for_destruction(characteristicShips, enemyShips, 10, over); //проверяем на уничтожение
                                 Meny(5); //вывод реплики
-                                Sleep(600);
+                                Sleep(700);
                             }
                             else if (enemyShips[y - 1][x1 - 36] < 2) {
                                 enemyShips[y - 1][x1 - 36] = 2;
                                 Meny(4); //вывод реплики
-                                Sleep(600);
+                                Sleep(700);
                                 your_turn = false;
                             }
                             break;
@@ -631,8 +631,7 @@ int main() {
                 if (your_turn == false) {
                     Sleep(0 + rand() % 400);
                     Meny(0);
-                    Pos(myShips, 2);
-                    Sleep(random(300, 500));
+                    Sleep(random(400, 700));
                     y = random(2, 11), x = (random(1, 10)) * 2;
                     int x1 = 0; // Переменная, для правильной отрисовки кораблей на поле
                     switch (x) { //Для отрисовки кораблей (я не знаю, почему у меня раньше не получалось)
@@ -671,12 +670,13 @@ int main() {
                         myShips[y - 1][x1 - 1] = 3;
                         check_for_destruction(characteristicShips, myShips, 0, over); //проверяем на уничтожение
                         Meny(2);
-                        Sleep(600);
+                        Sleep(700);
                     }
                     else if (myShips[y - 1][x1 - 1] < 2) {
                         myShips[y - 1][x1 - 1] = 2;
+                        Pos(myShips, 2);
                         Meny(1);
-                        Sleep(600);
+                        Sleep(700);
                         your_turn = true;
                     }
                 }
@@ -722,7 +722,7 @@ int main() {
                         } while (key != Enter);
                     }
                 } while (b < 1);
-                b = 0, s = 0, change = 0;
+                b = 0, s = 0, change = 1;
                 All_clear(myShips, enemyShips, key, y, x, num, xx, yy, over, 
                     arrangement, round, your_turn);
                 Alive(characteristicShips);
@@ -763,7 +763,7 @@ int main() {
                         } while (key != Enter);
                     }
                 } while (b < 1);
-                b = 0, s = 0, change = 0;
+                b = 0, s = 0, change = 1;
                 All_clear(myShips, enemyShips, key, y, x, num, xx, yy, over,
                     arrangement, round, your_turn);
                 Alive(characteristicShips);
