@@ -670,6 +670,7 @@ int main() {
                         myShips[y - 1][x1 - 1] = 3;
                         check_for_destruction(characteristicShips, myShips, 0, over); //проверяем на уничтожение
                         Meny(2);
+                        Pos(myShips, 2);
                         Sleep(700);
                     }
                     else if (myShips[y - 1][x1 - 1] < 2) {
