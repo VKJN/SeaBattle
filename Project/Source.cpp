@@ -1,21 +1,21 @@
 #include "Header.h"
 
-HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); //Дескриптор активного окна
+HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE); //Г„ГҐГ±ГЄГ°ГЁГЇГІГ®Г° Г ГЄГІГЁГўГ­Г®ГЈГ® Г®ГЄГ­Г 
 
-void SetCursor(int x, int y) { //функция для того чтобы устанавливать позицию курсора в консоли по оси Х и Y
+void SetCursor(int x, int y) { //ГґГіГ­ГЄГ¶ГЁГї Г¤Г«Гї ГІГ®ГЈГ® Г·ГІГ®ГЎГ» ГіГ±ГІГ Г­Г ГўГ«ГЁГўГ ГІГј ГЇГ®Г§ГЁГ¶ГЁГѕ ГЄГіГ°Г±Г®Г°Г  Гў ГЄГ®Г­Г±Г®Г«ГЁ ГЇГ® Г®Г±ГЁ Г• ГЁ Y
     COORD Coords = { x,y }; 
-    SetConsoleCursorPosition(hConsole, Coords); //Способ перемещения курсора
+    SetConsoleCursorPosition(hConsole, Coords); //Г‘ГЇГ®Г±Г®ГЎ ГЇГҐГ°ГҐГ¬ГҐГ№ГҐГ­ГЁГї ГЄГіГ°Г±Г®Г°Г 
 }
 
-void Start(char menu[][15]) { //функция, самая первая
+void Start(char menu[][15]) { //ГґГіГ­ГЄГ¶ГЁГї, Г±Г Г¬Г Гї ГЇГҐГ°ГўГ Гї
     
     for (int i = 0, y = 4; i < 4; i++, y += 2) {
-        SetCursor(16, y); //Установка позиции курсора
+        SetCursor(16, y); //Г“Г±ГІГ Г­Г®ГўГЄГ  ГЇГ®Г§ГЁГ¶ГЁГЁ ГЄГіГ°Г±Г®Г°Г 
         cout << menu[i];
     }
 }
 
-void Choice_1(char menu[][15], int a) { //меню
+void Choice_1(char menu[][15], int a) { //Г¬ГҐГ­Гѕ
     system("cls");
     for (int i = 0, y = 4; i < 5; i++, y += 2) {
         SetCursor(16, y);
@@ -31,7 +31,7 @@ void Choice_1(char menu[][15], int a) { //меню
     }
 }
 
-void Choice_2(char var[][30], int a) { // Выбор расстановки 
+void Choice_2(char var[][30], int a) { // Г‚Г»ГЎГ®Г° Г°Г Г±Г±ГІГ Г­Г®ГўГЄГЁ 
     system("cls");
     for (int i = 0; i < 2; i++) {
         SetCursor(30, 6 + i);
@@ -66,7 +66,7 @@ void Choice_3(char var1[][20], int a) {
 
 void Createfield(int x) {
     SetCursor(x, 1);
-    char mas[10] = { 'А','Б','В','Г','Д','Е','Ж','З','И','К' };
+    char mas[10] = { 'ГЂ','ГЃ','Г‚','Гѓ','Г„','Г…','Г†','Г‡','Г€','ГЉ' };
     
     int a = 0, b = 0;
     cout << "  " << mas[0];
@@ -92,7 +92,7 @@ void Createfield(int x) {
     }
 }
 
-void Pos(int mas[12][12], int x) { //прорисовка игровой карты с положением поставленных корабликов
+void Pos(int mas[12][12], int x) { //ГЇГ°Г®Г°ГЁГ±Г®ГўГЄГ  ГЁГЈГ°Г®ГўГ®Г© ГЄГ Г°ГІГ» Г± ГЇГ®Г«Г®Г¦ГҐГ­ГЁГҐГ¬ ГЇГ®Г±ГІГ ГўГ«ГҐГ­Г­Г»Гµ ГЄГ®Г°Г ГЎГ«ГЁГЄГ®Гў
     for (int i = 1; i < 11; i++) {
         int y = 1 + i; 
         SetCursor(x, y); 
@@ -103,9 +103,9 @@ void Pos(int mas[12][12], int x) { //прорисовка игровой карты с положением поста
             else if (mas[i][j] == 3) {
                 cout << "X ";
             }
-            else if (mas[i][j] >= 4) {
+            /*(else if (mas[i][j] >= 4) {
                 cout << "# ";
-            }
+            }*/
             else {
                 cout << "~ ";
             }  
@@ -137,8 +137,8 @@ void Pos_enemy(int mas[12][12], int x) {
 }
 
 void Meny(int num) {
-    char replicas[8][40] = { "Враг думает, куда ударить... ","Враг промазал ", "Враг попал ",
-        "Твой ход " , "Ты промазал...", "Ты попал!", "Поздравляю, ты победил!", "К сожалению, ты проиграл!" };
+    char replicas[8][40] = { "Г‚Г°Г ГЈ Г¤ГіГ¬Г ГҐГІ, ГЄГіГ¤Г  ГіГ¤Г Г°ГЁГІГј... ","Г‚Г°Г ГЈ ГЇГ°Г®Г¬Г Г§Г Г« ", "Г‚Г°Г ГЈ ГЇГ®ГЇГ Г« ",
+        "Г’ГўГ®Г© ГµГ®Г¤ " , "Г’Г» ГЇГ°Г®Г¬Г Г§Г Г«...", "Г’Г» ГЇГ®ГЇГ Г«!", "ГЏГ®Г§Г¤Г°Г ГўГ«ГїГѕ, ГІГ» ГЇГ®ГЎГҐГ¤ГЁГ«!", "ГЉ Г±Г®Г¦Г Г«ГҐГ­ГЁГѕ, ГІГ» ГЇГ°Г®ГЁГЈГ°Г Г«!" };
 
     SetCursor(22, 15); 
     for (int i = 0; i < 30; i++) {
